@@ -1,0 +1,35 @@
+<div class="row">
+    <h1>Ingrese la palabra que desea buscar</h1>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" [(ngModel)]="palabraBuscada"  id="palabraBuscada" placeholder="Inserte su palabra aquí">
+            <label for="palabraBuscada">Palabra</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-outline-success btn-lg w-100" (click)="buscarPalabra()">Buscar</button>
+    </div>
+</div>
+
+<div class="row" *ngIf="resultados.length > 0; else errorNoHayCoincidencia">
+    <h3>{{palabraBuscada}}:</h3>
+</div>
+
+<ng-template #errorNoHayCoincidencia>
+    <h3 *ngIf="palabraBuscada != ''">Su palabra no se encontro</h3>
+</ng-template>
+
+<ng-container  *ngFor="let resultado of resultados; let i= index">
+    
+    <ng-container *ngFor="let coincidencia of resultado.meanings; let j = index">
+        <span>Contexto {{i}}:</span>
+        <ol class="list-group list-group-numbered">
+        <ng-container *ngFor="let definicion of coincidencia.definitions; let k= index">
+            <li class="list-group-item">Significado {{k+1}}: {{definicion.definition}}</li>
+        </ng-container>
+        </ol>
+    </ng-container>
+</ng-container>
+
